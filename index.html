@@ -157,13 +157,18 @@
   }
 
   /* ===== POP-UP PROMO ===== */
-.modal-overlay{
-  ...
-  background: rgba(0,0,0,.22);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  ...
-}
+  .modal-overlay{
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.22);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    z-index: 9999;
+  }
   .modal-overlay.show{ display: flex; }
 
   .modal{
