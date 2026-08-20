@@ -1,30 +1,35 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Simulação de perfil Instagram</title>
+
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
+
+  body{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background: #111;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 24px 0;
+    align-items: flex-start;
+    padding: 12px 0;
   }
-  .phone {
-    width: 375px;
+
+  .phone{
+    width: min(375px, 94vw);       /* Responsivo no mobile */
     background: #000;
     color: #fafafa;
     border-radius: 40px;
     overflow: hidden;
     border: 8px solid #1a1a1a;
     box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-
-    position: relative; /* IMPORTANTE: para o pop-up ficar dentro do “celular” */
+    position: relative;            /* Pop-up dentro do “celular” */
   }
-  .statusbar {
+
+  .statusbar{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -32,41 +37,41 @@
     font-size: 15px;
     font-weight: 600;
   }
-  .statusbar .icons { display: flex; gap: 5px; align-items: center; }
-  .bars { display: flex; gap: 2px; align-items: flex-end; }
-  .bars span { width: 3px; background: #fafafa; border-radius: 1px; }
+  .statusbar .icons{ display: flex; gap: 5px; align-items: center; }
+  .bars{ display: flex; gap: 2px; align-items: flex-end; }
+  .bars span{ width: 3px; background: #fafafa; border-radius: 1px; }
   .bars span:nth-child(1){height:4px;} .bars span:nth-child(2){height:6px;}
   .bars span:nth-child(3){height:8px;} .bars span:nth-child(4){height:10px;}
-  .battery {
+  .battery{
     width: 22px; height: 11px; border: 1px solid #fafafa; border-radius: 3px;
     position: relative; margin-left: 4px;
   }
-  .battery::after {
+  .battery::after{
     content:''; position:absolute; right:-4px; top:3px; width:2px; height:5px;
     background:#fafafa; border-radius:0 1px 1px 0;
   }
-  .battery-fill { position:absolute; top:1px; left:1px; bottom:1px; width:70%; background:#fafafa; border-radius:1px; }
+  .battery-fill{ position:absolute; top:1px; left:1px; bottom:1px; width:70%; background:#fafafa; border-radius:1px; }
 
-  .topbar {
+  .topbar{
     display: flex; align-items: center; gap: 14px;
     padding: 6px 16px 14px;
   }
-  .topbar .back { font-size: 22px; color: #fafafa; }
-  .topbar .handle { display: flex; align-items: center; gap: 6px; font-size: 17px; font-weight: 600; }
-  .verified {
+  .topbar .back{ font-size: 22px; color: #fafafa; }
+  .topbar .handle{ display: flex; align-items: center; gap: 6px; font-size: 17px; font-weight: 600; }
+  .verified{
     width: 15px; height: 15px; border-radius: 50%;
     background: #3897f0; display: flex; align-items: center; justify-content: center;
     font-size: 10px; color: #fff;
   }
-  .topbar .dots { margin-left: auto; font-size: 20px; letter-spacing: 2px; color: #fafafa; }
+  .topbar .dots{ margin-left: auto; font-size: 20px; letter-spacing: 2px; color: #fafafa; }
 
-  .profile-head { display: flex; gap: 22px; padding: 4px 20px 14px; align-items: center; }
-  .avatar-ring {
+  .profile-head{ display: flex; gap: 22px; padding: 4px 20px 14px; align-items: center; }
+  .avatar-ring{
     width: 86px; height: 86px; border-radius: 50%;
     background: linear-gradient(135deg,#f9a94a,#e85b8a,#8b5cf6);
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
-  .avatar {
+  .avatar{
     width: 78px; height: 78px; border-radius: 50%;
     background: #1c1c1e;
     display: flex; align-items: center; justify-content: center;
@@ -74,66 +79,64 @@
     letter-spacing: 1px;
     overflow: hidden;
   }
-  .avatar img {
+  .avatar img{
     width: 100%; height: 100%;
     object-fit: cover;
     border-radius: 50%;
     display: block;
   }
-  .stats { display: flex; flex: 1; justify-content: space-around; text-align: center; }
-  .stats .num { font-size: 17px; font-weight: 700; }
-  .stats .label { font-size: 13px; color: #b8b8b8; margin-top: 2px; }
+  .stats{ display: flex; flex: 1; justify-content: space-around; text-align: center; }
+  .stats .num{ font-size: 17px; font-weight: 700; }
+  .stats .label{ font-size: 13px; color: #b8b8b8; margin-top: 2px; }
 
-  .bio-block { padding: 0 20px 14px; }
-  .bio-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .bio-line { font-size: 14px; line-height: 1.45; color: #f0f0f0; }
-  .bio-tag { color: #6fb1e8; }
-  .bio-link { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #6fb1e8; margin-top: 6px; }
-  .bio-link .chain { font-size: 13px; }
+  .bio-block{ padding: 0 20px 14px; }
+  .bio-name{ font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .bio-line{ font-size: 14px; line-height: 1.45; color: #f0f0f0; }
+  .bio-tag{ color: #6fb1e8; }
+  .bio-link{ display: flex; align-items: center; gap: 6px; font-size: 14px; color: #6fb1e8; margin-top: 6px; }
+  .bio-link .chain{ font-size: 13px; }
 
-  .threads-pill {
+  .threads-pill{
     margin: 12px 20px 0; display: flex; align-items: center; gap: 8px;
     border: 1px solid #333; border-radius: 20px; padding: 6px 12px; width: fit-content;
     font-size: 13px; color: #d8d8d8;
   }
-  .dot-new { width: 6px; height: 6px; border-radius: 50%; background: #6fb1e8; margin-left: 4px; }
+  .dot-new{ width: 6px; height: 6px; border-radius: 50%; background: #6fb1e8; margin-left: 4px; }
 
-  .action-row { display: flex; gap: 8px; padding: 16px 20px; }
-  .btn {
+  .action-row{ display: flex; gap: 8px; padding: 16px 20px; }
+  .btn{
     flex: 1; text-align: center; padding: 9px 0; border-radius: 9px;
     font-size: 14px; font-weight: 600;
   }
-  .btn.primary { background: #3897f0; color: #fff; }
-  .btn.secondary { background: #262626; color: #fafafa; }
-  .btn.icon-only { flex: 0 0 42px; }
+  .btn.primary{ background: #3897f0; color: #fff; }
+  .btn.secondary{ background: #262626; color: #fafafa; }
+  .btn.icon-only{ flex: 0 0 42px; }
 
-  .highlights {
+  .highlights{
     display: flex; gap: 18px; padding: 4px 20px 18px; overflow-x: auto;
     scrollbar-width: none; -ms-overflow-style: none;
   }
-  .highlights::-webkit-scrollbar { display: none; height: 0; }
-  .highlight { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
-  .h-circle {
+  .highlights::-webkit-scrollbar{ display: none; height: 0; }
+  .highlight{ display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+  .h-circle{
     width: 60px; height: 60px; border-radius: 50%; border: 1px solid #333;
     display: flex; align-items: center; justify-content: center; font-size: 20px;
   }
-  .highlight .h-label { font-size: 11px; color: #d8d8d8; }
+  .highlight .h-label{ font-size: 11px; color: #d8d8d8; }
 
-  .tabs { display: flex; border-top: 1px solid #262626; }
-  .tab { flex: 1; text-align: center; padding: 12px 0; font-size: 20px; color: #666; }
-  .tab.active { color: #fafafa; border-top: 1px solid #fafafa; margin-top: -1px; }
+  .tabs{ display: flex; border-top: 1px solid #262626; }
+  .tab{ flex: 1; text-align: center; padding: 12px 0; font-size: 20px; color: #666; }
+  .tab.active{ color: #fafafa; border-top: 1px solid #fafafa; margin-top: -1px; }
 
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-  .post {
-    aspect-ratio: 1; position: relative; overflow: hidden; background: #1c1c1e;
-  }
-  .post img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .post .badge {
+  .grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .post{ aspect-ratio: 1; position: relative; overflow: hidden; background: #1c1c1e; }
+  .post img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+  .post .badge{
     position: absolute; top: 6px; right: 6px; font-size: 13px; color: #fff;
     text-shadow: 0 1px 3px rgba(0,0,0,0.6);
   }
 
-  .navbar {
+  .navbar{
     display: flex; justify-content: space-around; align-items: center;
     margin: 14px 14px 16px;
     padding: 10px 14px;
@@ -141,14 +144,16 @@
     backdrop-filter: blur(14px);
     border-radius: 999px;
     border: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    z-index: 1; /* pop-up fica acima */
   }
-  .navbar span {
+  .navbar span{
     width: 46px; height: 40px; border-radius: 999px;
     display: flex; align-items: center; justify-content: center;
     font-size: 21px; color: #fafafa;
   }
-  .navbar span.active { background: rgba(255,255,255,0.14); }
-  .navbar .nav-avatar {
+  .navbar span.active{ background: rgba(255,255,255,0.14); }
+  .navbar .nav-avatar{
     width: 30px; height: 30px; border-radius: 50%;
     background: linear-gradient(135deg,#8a6a4a,#3f3226);
     border: 1px solid rgba(255,255,255,0.3);
@@ -157,12 +162,11 @@
 
   /* ===== POP-UP PROMO (EM CIMA DO FEED, DENTRO DO CELULAR) ===== */
   .modal-overlay{
-    position: absolute; /* em vez de fixed */
-    inset: 0;           /* cobre a phone inteira */
-    background: rgba(0,0,0,.22); /* transparente para ver o feed */
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.22);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
-
     display: none;
     align-items: center;
     justify-content: center;
@@ -182,7 +186,6 @@
     position: relative;
     text-align: center;
   }
-
   .modal-close{
     position: absolute;
     top: 10px;
@@ -194,18 +197,8 @@
     cursor: pointer;
     line-height: 1;
   }
-
-  .modal-title{
-    font-size: 16px;
-    margin: 4px 0 8px;
-    font-weight: 800;
-  }
-  .modal-text{
-    font-size: 13px;
-    color: rgba(255,255,255,.9);
-    margin: 0 0 12px;
-    line-height: 1.35;
-  }
+  .modal-title{ font-size: 16px; margin: 4px 0 8px; font-weight: 800; }
+  .modal-text{ font-size: 13px; color: rgba(255,255,255,.9); margin: 0 0 12px; line-height: 1.35; }
   .modal-cta{
     display: inline-block;
     width: 100%;
@@ -218,8 +211,52 @@
     text-align: center;
   }
   .modal-cta:hover{ filter: brightness(1.05); }
+
+  /* ===== Ajustes extra para telas pequenas ===== */
+  @media (max-width: 420px){
+    body{ padding: 8px 0; }
+
+    .phone{
+      width: 96vw;
+      border-width: 6px;
+      border-radius: 34px;
+    }
+
+    .statusbar{
+      padding: 12px 18px 6px;
+      font-size: 14px;
+    }
+
+    .topbar{ padding: 6px 14px 12px; }
+
+    .profile-head{
+      padding: 4px 16px 12px;
+      gap: 16px;
+    }
+
+    .avatar-ring{ width: 76px; height: 76px; }
+    .avatar{ width: 68px; height: 68px; font-size: 22px; }
+
+    .action-row{
+      padding: 14px 16px;
+      gap: 6px;
+    }
+
+    .btn{ font-size: 13px; padding: 9px 0; }
+
+    .modal-overlay{ padding: 10px; }
+    .modal{
+      width: min(320px, 92%);
+      padding: 14px 12px 12px;
+      border-radius: 14px;
+    }
+    .modal-title{ font-size: 15px; }
+    .modal-text{ font-size: 12.5px; }
+    .modal-cta{ padding: 11px 12px; border-radius: 11px; }
+  }
 </style>
 </head>
+
 <body>
 
 <div class="phone">
@@ -288,30 +325,20 @@
     <div class="tab">&#128100;</div>
   </div>
 
-  <!-- POP-UP: agora está DENTRO do celular e fica em cima do feed -->
+  <!-- POP-UP -->
   <div id="promoModal" class="modal-overlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
       <button class="modal-close" aria-label="Fechar" onclick="closePromo()">×</button>
-
       <h2 id="promoTitle" class="modal-title">Você é uma cliente elegível!</h2>
       <p class="modal-text">Resgate agora mesmo seu prêmio</p>
-
-      <!-- TROQUE O LINK AQUI -->
       <a class="modal-cta" href="https://elseve-oficial.vercel.app/" target="_blank" rel="noopener">Resgatar</a>
     </div>
   </div>
 
   <div class="grid">
-    <!-- Exemplo de posts (se quiser, troque por imagens reais) -->
-    <div class="post"></div>
-    <div class="post"></div>
-    <div class="post"></div>
-    <div class="post"></div>
-    <div class="post"></div>
-    <div class="post"></div>
-    <div class="post"></div>
-    <div class="post"></div>
-    <div class="post"></div>
+    <div class="post"></div><div class="post"></div><div class="post"></div>
+    <div class="post"></div><div class="post"></div><div class="post"></div>
+    <div class="post"></div><div class="post"></div><div class="post"></div>
   </div>
 
   <div class="navbar">
@@ -337,19 +364,16 @@
     el.setAttribute('aria-hidden', 'true');
   }
 
-  // Abrir automaticamente
   window.addEventListener('load', () => {
     setTimeout(openPromo, 800);
   });
 
-  // Fechar ao clicar fora da caixa (somente no overlay)
   document.addEventListener('click', (e) => {
     const overlay = document.getElementById('promoModal');
     if (!overlay.classList.contains('show')) return;
     if (e.target && e.target.id === 'promoModal') closePromo();
   });
 
-  // Fechar com ESC
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closePromo();
   });
@@ -357,6 +381,3 @@
 
 </body>
 </html>
-```
-
-Se você me mandar o link real, eu já devolvo de novo com ele colocado no `href="..."` do botão **Resgatar**.
