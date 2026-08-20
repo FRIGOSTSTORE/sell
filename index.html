@@ -330,14 +330,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="tab">&#128100;</div>
   </div>
 
-  <!-- POP-UP -->
-  <div id="promoModal" class="modal-overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
-      <h2 id="promoTitle" class="modal-title">Você é uma cliente elegível!</h2>
-      <p class="modal-text">Resgate agora mesmo seu prêmio</p>
-      <a class="modal-cta" href="https://elseve-oficial.vercel.app/" target="_blank" rel="noopener">Resgatar</a>
-    </div>
+<!-- POP-UP -->
+<div id="promoModal" class="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
+    <button class="modal-close" aria-label="Fechar" onclick="closePromoModal()">&times;</button>
+    <h2 id="promoTitle" class="modal-title">Você é uma cliente elegível!</h2>
+    <p class="modal-text">Resgate agora mesmo seu prêmio</p>
+    <a class="modal-cta" href="seu link" target="_blank" rel="noopener">Resgatar</a>
+    <button class="modal-secondary" onclick="closePromoModal()">Agora não</button>
   </div>
+</div>
+
+<script>
+  function closePromoModal() {
+    document.getElementById('promoModal').setAttribute('aria-hidden', 'true');
+    document.getElementById('promoModal').style.display = 'none';
+  }
+  // Fecha também clicando fora do modal
+  document.getElementById('promoModal').addEventListener('click', function(e) {
+    if (e.target === this) closePromoModal();
+  });
+</script>
 
   <!-- FEED ATUALIZADO (IMAGENS .JPEG) -->
   <!-- Coloque os arquivos dentro da pasta /imagens com estes nomes: feed1.jpeg ... feed6.jpeg -->
